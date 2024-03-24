@@ -1,0 +1,10 @@
+
+
+POST http://localhost:8000/report/getreport
+Content-Type: application/json
+
+{
+       "method": "GET",
+       "credentials": "include"      
+     
+}

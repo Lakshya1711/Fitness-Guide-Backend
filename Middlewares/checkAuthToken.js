@@ -7,12 +7,10 @@ function checkAuth(req, res, next) {
   // console.log("Check Auth Token MIDDLEWARE CALLED", authToken)
 
   if (!authToken || !refreshToken) {
-    return res
-      .status(401)
-      .json({
-        message: "Authentication failed: No authToken or refreshToken provided",
-        ok: false,
-      });
+    return res.status(401).json({
+      message: "Authentication failed: No authToken or refreshToken provided",
+      ok: false,
+    });
   }
 
   jwt.verify(authToken, process.env.JWT_SECRET_KEY, (err, decoded) => {
@@ -24,12 +22,10 @@ function checkAuth(req, res, next) {
         (refreshErr, refreshDecoded) => {
           if (refreshErr) {
             // Both tokens are invalid, send an error message and prompt for login
-            return res
-              .status(401)
-              .json({
-                message: "Authentication failed: Both tokens are invalid",
-                ok: false,
-              });
+            return res.status(401).json({
+              message: "Authentication failed: Both tokens are invalid",
+              ok: false,
+            });
           } else {
             // Generate new auth and refresh tokens
             const newAuthToken = jwt.sign(
