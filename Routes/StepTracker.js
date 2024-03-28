@@ -93,7 +93,9 @@ router.delete("/deletestepentry", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 
-  user.steps = user.steps.filter((entry) => entry.date !== date);
+  user.steps = user.steps.filter(
+    (entry) => entry.date.toString() !== new Date(date).toString()
+  );
 
   await user.save();
   res.json(createResponse(true, "Steps entry deleted successfully"));

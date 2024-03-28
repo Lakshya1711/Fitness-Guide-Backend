@@ -97,7 +97,9 @@ router.delete("/deleteworkoutentry", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 
-  user.workouts = user.workouts.filter((entry) => entry.date !== date);
+  user.workouts = user.workouts.filter(
+    (entry) => entry.date.toString() !== new Date(date).toString()
+  );
 
   await user.save();
   res.json(createResponse(true, "Workout entry deleted successfully"));

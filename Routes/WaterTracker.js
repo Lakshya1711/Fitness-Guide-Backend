@@ -94,7 +94,9 @@ router.delete("/deletewaterentry", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 
-  user.water = user.water.filter((entry) => entry.date !== date);
+  user.water = user.water.filter(
+    (entry) => entry.date.toString() !== new Date(date).toString()
+  );
 
   await user.save();
   res.json(createResponse(true, "Water entry deleted successfully"));
