@@ -23,7 +23,12 @@ dotenv.config();
 require("./db");
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://localhost:3001"] }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+  })
+);
 // app.use(
 //     cors({
 //         origin: function (origin, callback) {
@@ -51,9 +56,9 @@ app.use("/workoutplans", workoutRoutes);
 app.use("/report", reportRoutes);
 
 app.get("/", (req, res) => {
-    res.json({ message: "The API is working" });
+  res.json({ message: "The API is working" });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
