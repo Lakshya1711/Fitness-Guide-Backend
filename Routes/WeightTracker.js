@@ -14,8 +14,8 @@ function createResponse(ok, message, data) {
 }
 
 router.post("/addweightentry", authTokenHandler, async (req, res) => {
-  const { date, weightInKg } = req.body;
-
+  const { date, weights } = req.body;
+  const weightInKg = weights;
   if (!date || !weightInKg) {
     return res
       .status(400)
@@ -103,7 +103,7 @@ router.delete("/deleteweightentry", authTokenHandler, async (req, res) => {
 });
 
 // has a bug
-router.get("/getusergoalweight", authTokenHandler, async (req, res) => {
+router.post("/getusergoalweight", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 

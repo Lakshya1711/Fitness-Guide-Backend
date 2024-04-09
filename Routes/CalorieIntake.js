@@ -26,16 +26,17 @@ router.post("/addcalorieintake", authTokenHandler, async (req, res) => {
       .status(400)
       .json(createResponse(false, "Please provide all the details"));
   }
-  let qtyingrams = 0;
+  let newQuantity = 0;
   if (quantitytype === "g") {
-    qtyingrams = quantity;
+    newQuantity = quantity;
   } else if (quantitytype === "kg") {
-    qtyingrams = quantity * 1000;
+    newQuantity = quantity * 1000;
   } else if (quantitytype === "ml") {
-    qtyingrams = quantity;
+    newQuantity = quantity;
   } else if (quantitytype === "l") {
-    qtyingrams = quantity * 1000;
+    newQuantity = quantity * 1000;
   } else {
+    console.log("Here");
     return res.status(400).json(createResponse(false, "Invalid quantity type"));
   }
 
@@ -56,24 +57,11 @@ router.post("/addcalorieintake", authTokenHandler, async (req, res) => {
           body.toString("utf8")
         );
       else {
-        // body :[ {
-        //     "name": "rice",
-        //     "calories": 127.4,
-        //     "serving_size_g": 100,
-        //     "fat_total_g": 0.3,
-        //     "fat_saturated_g": 0.1,
-        //     "protein_g": 2.7,
-        //     "sodium_mg": 1,
-        //     "potassium_mg": 42,
-        //     "cholesterol_mg": 0,
-        //     "carbohydrates_total_g": 28.4,
-        //     "fiber_g": 0.4,
-        //     "sugar_g": 0.1
-        // }]
-
         body = JSON.parse(body);
+        console.log(body);
         let calorieIntake =
-          (body[0].calories / body[0].serving_size_g) * parseInt(qtyingrams);
+          (body[0].calories / body[0].serving_size_g) * parseInt(newQuantity);
+
         const userId = req.userId;
         const user = await User.findOne({ _id: userId });
         user.calorieIntake.push({

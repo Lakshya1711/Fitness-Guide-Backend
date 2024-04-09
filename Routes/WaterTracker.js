@@ -13,8 +13,9 @@ function createResponse(ok, message, data) {
 }
 
 router.post("/addwaterentry", authTokenHandler, async (req, res) => {
-  const { date, amountInMilliliters } = req.body;
-
+  const { date, water } = req.body;
+  const amountInMilliliters = water;
+  console.log(date, amountInMilliliters);
   if (!date || !amountInMilliliters) {
     return res
       .status(400)
@@ -102,7 +103,7 @@ router.delete("/deletewaterentry", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Water entry deleted successfully"));
 });
 
-router.get("/getusergoalwater", authTokenHandler, async (req, res) => {
+router.post("/getusergoalwater", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 

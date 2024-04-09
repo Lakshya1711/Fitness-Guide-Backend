@@ -16,7 +16,7 @@ function createResponse(ok, message, data) {
 router.post("/addsleepentry", authTokenHandler, async (req, res) => {
   const { date, durationInHrs } = req.body;
 
-  if (!date || !duration) {
+  if (!date || !durationInHrs) {
     return res
       .status(400)
       .json(createResponse(false, "Please provide date and sleep duration"));
@@ -102,7 +102,7 @@ router.delete("/deletesleepentry", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Sleep entry deleted successfully"));
 });
 
-router.get("/getusersleep", authTokenHandler, async (req, res) => {
+router.post("/getusersleep", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 

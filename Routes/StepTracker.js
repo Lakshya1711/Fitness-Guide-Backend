@@ -101,7 +101,7 @@ router.delete("/deletestepentry", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Steps entry deleted successfully"));
 });
 
-router.get("/getusergoalsteps", authTokenHandler, async (req, res) => {
+router.post("/getusergoalsteps", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
 
