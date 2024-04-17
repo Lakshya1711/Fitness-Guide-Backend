@@ -19,7 +19,7 @@ router.get("/test", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Test API works for report"));
 });
 
-router.get("/getreport", authTokenHandler, async (req, res) => {
+router.post("/getreport", authTokenHandler, async (req, res) => {
   // get today's calorieIntake
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
@@ -72,7 +72,7 @@ router.get("/getreport", authTokenHandler, async (req, res) => {
     }
   });
 
-  // get today's weight
+  // // get today's weight
   let weight = user.weight[user.weight.length - 1].weight;
   // get today's height
   let height = user.height[user.height.length - 1].height;
