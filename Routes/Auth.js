@@ -7,8 +7,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
-// tdnk pilp bujf smjf
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
