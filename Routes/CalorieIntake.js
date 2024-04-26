@@ -78,13 +78,14 @@ router.post("/addcalorieintake", authTokenHandler, async (req, res) => {
     }
   );
 });
+
 router.post("/getcalorieintakebydate", authTokenHandler, async (req, res) => {
   const { date } = req.body;
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
   if (!date) {
-    let date = new Date(); // sept 1 2021 12:00:00
-    user.calorieIntake = filterEntriesByDate(user.calorieIntake, date);
+    let currentDate = new Date(); // Get the current date
+    user.calorieIntake = filterEntriesByDate(user.calorieIntake, currentDate);
 
     return res.json(
       createResponse(true, "Calorie intake for today", user.calorieIntake)
@@ -95,6 +96,7 @@ router.post("/getcalorieintakebydate", authTokenHandler, async (req, res) => {
     createResponse(true, "Calorie intake for the date", user.calorieIntake)
   );
 });
+
 router.post("/getcalorieintakebylimit", authTokenHandler, async (req, res) => {
   const { limit } = req.body;
   const userId = req.userId;
@@ -104,14 +106,13 @@ router.post("/getcalorieintakebylimit", authTokenHandler, async (req, res) => {
   } else if (limit === "all") {
     return res.json(createResponse(true, "Calorie intake", user.calorieIntake));
   } else {
-    let date = new Date();
-    let currentDate = new Date(
-      date.setDate(date.getDate() - parseInt(limit))
-    ).getTime();
-    // 1678910
+    let currentDate = new Date();
+    let limitDate = new Date(
+      currentDate.setDate(currentDate.getDate() - parseInt(limit))
+    );
 
     user.calorieIntake = user.calorieIntake.filter((item) => {
-      return new Date(item.date).getTime() >= currentDate;
+      return new Date(item.date) >= limitDate;
     });
 
     return res.json(
@@ -123,6 +124,7 @@ router.post("/getcalorieintakebylimit", authTokenHandler, async (req, res) => {
     );
   }
 });
+
 router.delete("/deletecalorieintake", authTokenHandler, async (req, res) => {
   const { item, date } = req.body;
   if (!item || !date) {
@@ -140,6 +142,7 @@ router.delete("/deletecalorieintake", authTokenHandler, async (req, res) => {
   await user.save();
   res.json(createResponse(true, "Calorie intake deleted successfully"));
 });
+
 router.get("/getgoalcalorieintake", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
@@ -177,4 +180,5 @@ function filterEntriesByDate(entries, targetDate) {
     );
   });
 }
+
 module.exports = router;

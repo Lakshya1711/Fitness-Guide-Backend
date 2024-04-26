@@ -56,22 +56,20 @@ router.post("/getsleepbydate", authTokenHandler, async (req, res) => {
 // has a bug
 router.post("/getsleepbylimit", authTokenHandler, async (req, res) => {
   const { limit } = req.body;
-
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
-
   if (!limit) {
     return res.status(400).json(createResponse(false, "Please provide limit"));
   } else if (limit === "all") {
     return res.json(createResponse(true, "All sleep entries", user.sleep));
   } else {
-    let date = new Date();
-    let currentDate = new Date(
-      date.setDate(date.getDate() - parseInt(limit))
-    ).getTime();
+    const currentDate = new Date();
+    const limitDate = new Date(
+      currentDate.setDate(currentDate.getDate() - parseInt(limit))
+    );
 
     user.sleep = user.sleep.filter((item) => {
-      return new Date(item.date).getTime() >= currentDate;
+      return new Date(item.date) >= limitDate;
     });
 
     return res.json(

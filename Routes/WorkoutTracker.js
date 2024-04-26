@@ -56,7 +56,6 @@ router.post("/getworkoutsbydate", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Workout entries for the date", user.workouts));
 });
 
-// has a bug
 router.get("/getworkoutsbylimit", authTokenHandler, async (req, res) => {
   const { limit } = req.body;
 
@@ -105,7 +104,6 @@ router.delete("/deleteworkoutentry", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Workout entry deleted successfully"));
 });
 
-// has a bug
 router.get("/getusergoalworkout", authTokenHandler, async (req, res) => {
   const userId = req.userId;
   const user = await User.findById({ _id: userId });
