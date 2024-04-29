@@ -56,7 +56,7 @@ router.post("/getworkoutsbydate", authTokenHandler, async (req, res) => {
   res.json(createResponse(true, "Workout entries for the date", user.workouts));
 });
 
-router.get("/getworkoutsbylimit", authTokenHandler, async (req, res) => {
+router.post("/getworkoutsbylimit", authTokenHandler, async (req, res) => {
   const { limit } = req.body;
 
   const userId = req.userId;
